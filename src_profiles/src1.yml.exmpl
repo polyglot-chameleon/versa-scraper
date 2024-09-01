@@ -1,0 +1,15 @@
+base_url:
+target_path:
+item_css:
+link_css:
+text_css:
+  title:
+  description:
+  meta:
+regex:
+  meta:
+    types:
+    datetime:
+    location:
+pagination_query:
+pagination_button_css:

@@ -1,0 +1,32 @@
+version: "3.8"
+services:
+  scraper:
+    image: ruby-scraper:latest
+    build: .
+    container_name: ruby-scraper
+    volumes:
+      - type: bind
+        source: .
+        target: /app
+    environment:
+      - API_URL=http://api:4567
+    depends_on:
+      - api
+  api:
+    image: sinatra-api:latest
+    build: api
+    container_name: sinatra-api
+    environment:
+      MONGODB_URI: mongodb://data-sink:27017/posts
+    depends_on:
+      - data-sink
+  data-sink:
+    image: mongo:7.0.5-rc0-jammy
+    container_name: mongo-db
+    ports:
+      - 27017:27017
+    volumes:
+      - dsink_data:/data/db
+volumes:
+  dsink_data:
+  db_data:

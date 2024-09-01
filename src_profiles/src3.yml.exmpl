@@ -1,0 +1,21 @@
+url: "..."
+pagewise:
+  text_css:
+    author: div.authorline__author > a.authorline__link
+    meta: p.metatextline
+  multivalue:
+    tags: ul.taglist > li.taglist__element > a.tag
+  by_attr:
+    - name: author
+      css: a.authorline__link
+      attrs:
+        - href
+    - name: img
+      css: img.ts-image
+      attrs:
+        - src
+        - alt
+  regex:
+    meta:
+      datetime: \d{2}.\d{2}.\d{4} \d{2}:\d{2}
+  datetime_fmt: "%d.%m.%Y %H:%M"

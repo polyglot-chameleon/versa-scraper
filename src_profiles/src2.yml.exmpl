@@ -1,0 +1,40 @@
+url: "..."
+pagination:
+  type: path
+  value: /page/
+  button_css: li.navigation > ol > li
+
+item_css: div.entrylist__entry
+link_css: a.entrylist__link
+text_css:
+  topic: strong.entrylist__overline
+  title: em.entrylist__title
+
+multivalue:
+  misc: .breadcrumb-list__item
+
+pagewise:
+  text_css:
+    title: span.caption__title, span[data-manual='title']
+    img_caption: figcaption
+    description: p[data-manual='teaserText'], div.article-info__description
+    author: p[data-manual='author'] > a
+  multivalue:
+    paragraphs: div.article-content p[data-manual='paragraph']
+    themes: ul[data-manual='themes'] > li > a
+  by_attr:
+    - name: img
+      css: figure picture > img
+      attrs:
+        - src
+        - alt
+    - css: time
+      attrs:
+        - datetime
+    - name: author
+      css: p[data-manual='author'] > a
+      attrs:
+        - href
+  regex:
+    paragraphs__0:
+      location: ([A-ZÄÖÜa-zäöüß ]+) \(dpa(\/[a-z]+)?\)

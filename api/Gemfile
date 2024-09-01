@@ -1,0 +1,13 @@
+# frozen_string_literal: true
+
+source "https://rubygems.org"
+
+gem 'rubocop', group: 'development', require: false
+
+gem "sinatra", "~> 3.1"
+gem "mongoid", "~> 8.1"
+
+
+gem "puma", "~> 6.4"
+
+gem "geocoder", "~> 1.8"
