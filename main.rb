@@ -5,7 +5,7 @@ require_relative 'scrapers/rss_scraper'
 
 Dir['src_profiles/*.yml'].each do |fname|
   src = YAML.load_file fname
-  scraper_type = if src.key? 'pagination'
+  scraper_type = if src.key? 'pagination_query'
                    PaginatedListScraper
                  elsif src['url'].include? 'rss'
                    RssScraper

@@ -1,28 +1,30 @@
-version: "3.8"
 services:
   scraper:
     image: ruby-scraper:latest
     build: .
     container_name: ruby-scraper
-    volumes:
-      - type: bind
-        source: .
-        target: /app
     environment:
       - API_URL=http://api:4567
     depends_on:
-      - api
+      api:
+        condition: service_healthy
   api:
     image: sinatra-api:latest
     build: api
     container_name: sinatra-api
+    healthcheck:
+      test: [ "CMD", "curl", "localhost:4567" ]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
     environment:
       MONGODB_URI: mongodb://data-sink:27017/posts
     depends_on:
       - data-sink
   data-sink:
     image: mongo:7.0.5-rc0-jammy
-    container_name: mongo-db
+    container_name: mongodb
     ports:
       - 27017:27017
     volumes:
