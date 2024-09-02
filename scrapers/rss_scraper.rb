@@ -18,7 +18,7 @@ class RssScraper < ListScraper
                     description: item.description, datetime: item.pubDate }.transform_keys(&:to_s)
       item_dom = Nokogiri.HTML5 HTTParty.get item.link
       progressbar.increment
-      item_data.merge! collect_html_from item_dom
+      item_data.merge! collect_data item_dom
     end
 
     create items

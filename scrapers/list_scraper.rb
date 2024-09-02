@@ -13,15 +13,17 @@ class ListScraper < Scraper
     @cur_page_idx = 1
   end
 
-  # Run scraper
+  # Scrape the contents of a page
   def run
-    page_data = collect_items_from get_page
+    page_data = collect_items_from fetch_html
     create page_data
   end
 
   protected
 
-  # Collects data by css queries into `Nokogiri::Document` objects
+  # Process and collect data from all dom list items
+  #
+  # `doc` *Nokogiri::HTML5::Document*
   def collect_items_from(doc) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
     page_data = []
     dom_items = doc.css @src['item_css']
@@ -29,20 +31,22 @@ class ListScraper < Scraper
     # progressbar = ProgressBar.create title: @url.host, total: dom_items.length
 
     dom_items.each_with_index do |dom_item, idx|
-      html_data = collect_html_from dom_item
-      html_data = extract_content_from html_data if @src['text_css'].key? 'meta'
+      html_data = collect_data dom_item
+      html_data = extract_regex html_data if @src['text_css'].key? 'meta'
       page_data[idx] = html_data
       # progressbar.increment
     end
 
     return page_data unless @src.key? 'pagewise'
 
+    # Fetch data on individual page
     progressbar = ProgressBar.create title: "Page #{@cur_page_idx}", total: dom_items.length
 
     (0..dom_items.length - 1).each do |idx|
       page_src = {}
-      page_src['url'] = page_data[idx]['url']
+      page_src['url'] = @url.host + page_data[idx]['url']
       page_src.merge!(**@src['pagewise'])
+
       page_scraper = Scraper.new page_src
       page_data[idx].merge! page_scraper.run
       progressbar.increment
@@ -51,7 +55,9 @@ class ListScraper < Scraper
     page_data
   end
 
-  # populate db
+  # Create posts via API
+  #
+  # `posts` *Array*
   def create(posts)
     HTTParty.post ENV['API_URL'],
                   { body: posts.to_json,

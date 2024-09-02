@@ -14,7 +14,7 @@ class TestPaginatedListScraper < Minitest::Test
                                                   datetime: /\d{4}-\d{2}-\d{2} \d{2}:\d{2}/ } },
                                         'pagination_query'
     doc = Nokogiri.HTML5 File.open('__tests__/resources/paginated-list.html')
-    @page_data = @scraper.send :collect_html_from, doc
+    @page_data = @scraper.send :collect_data, doc
   end
 
   def test_css
@@ -34,8 +34,8 @@ class TestPaginatedListScraper < Minitest::Test
     end
   end
 
-  def test_extract_content_from
-    page_data = @scraper.send :extract_content_from, @page_data
+  def test_extract_regex
+    page_data = @scraper.send :extract_regex, @page_data
 
     page_data.all? do |page|
       @scraper.regex.each_key do |key|

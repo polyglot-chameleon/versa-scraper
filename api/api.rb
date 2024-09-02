@@ -2,7 +2,7 @@
 
 require 'sinatra'
 
-require_relative 'database/migrate'
+require_relative 'db/migrate'
 require_relative 'models/location'
 
 migrate
