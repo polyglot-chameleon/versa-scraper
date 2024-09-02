@@ -17,7 +17,6 @@ GEM
     parser (3.2.2.3)
       ast (~> 2.4.1)
       racc
-    profile (0.4.0)
     racc (1.7.1)
     rainbow (3.1.1)
     regexp_parser (2.8.1)
@@ -47,7 +46,6 @@ PLATFORMS
 DEPENDENCIES
   httparty (~> 0.21.0)
   nokogiri (~> 1.15)
-  profile (~> 0.4.0)
   rss (~> 0.3.0)
   rubocop
   ruby-progressbar
