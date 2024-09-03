@@ -24,17 +24,14 @@ class ListScraper < Scraper
   # Process and collect data from all dom list items
   #
   # `doc` *Nokogiri::HTML5::Document*
-  def collect_items_from(doc) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
+  def collect_items_from(doc)
     page_data = []
     dom_items = doc.css @src['item_css']
-
-    # progressbar = ProgressBar.create title: @url.host, total: dom_items.length
 
     dom_items.each_with_index do |dom_item, idx|
       html_data = collect_data dom_item
       html_data = extract_regex html_data if @src['text_css'].key? 'meta'
       page_data[idx] = html_data
-      # progressbar.increment
     end
 
     return page_data unless @src.key? 'pagewise'
@@ -48,6 +45,7 @@ class ListScraper < Scraper
       page_src.merge!(**@src['pagewise'])
 
       page_scraper = Scraper.new page_src
+      page_scraper.cookie = @cookie
       page_data[idx].merge! page_scraper.run
       progressbar.increment
     end
