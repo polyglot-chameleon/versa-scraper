@@ -1,0 +1,17 @@
+url: ""
+item_css: div.item
+link_css: a.article-link
+text_css:
+  title: div.title
+  description: div.desc
+  meta: div.meta
+by_attr:
+  - name: img
+    css: img
+    attrs:
+      - src
+regex:
+  meta:
+    types: type1|type2
+    datetime: \d{4}-\d{2}-\d{2} \d{2}:\d{2}
+datetime_fmt: "%Y-%m-%d %H:%M"

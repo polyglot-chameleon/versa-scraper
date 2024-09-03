@@ -12,11 +12,13 @@ class Scraper
     @src = src
     @url = URI.parse @src['url']
     @cookie = HTTParty::CookieHash.new
-    @cookie['lang'] = 'en'
+    @cookie['User-Agent'] =
+      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36'
     @log = Logger.new $stdout
   end
 
   attr_reader :src
+  attr_writer :cookie
 
   # Scrape the contents of a page
   #
@@ -32,16 +34,12 @@ class Scraper
   #
   # `return` *Nokogiri::HTML5::Document*
   def fetch_html
-    @log.debug "Fetching #{@url}"
     while true
       begin
-        response = HTTParty.get @url, { headers: { 'User-Agent' =>
-        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36',
-                                                   'Cookie' => @cookie.to_cookie_string } }
+        response = HTTParty.get @url, { headers: { 'Cookie' => @cookie.to_cookie_string } }
         break
-      rescue StandardError, OpenSSL::SSL::SSLError => e # mmeeehhh
+      rescue OpenSSL::SSL::SSLError => e # mmeeehhh
         @log.warn e.message
-        @log.warn @url
         sleep 1
       end
     end
@@ -80,7 +78,7 @@ class Scraper
     item.transform_keys(&:to_s)
   end
 
-  # Do some processing
+  # Extract regex from item
   #
   # `page` *Hash*
   def extract_regex(page) # rubocop:disable Metrics/AbcSize,Metrics/MethodLength,Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity

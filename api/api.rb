@@ -27,8 +27,6 @@ end
 
 get '/authors' do
   content_type 'application/json'
-  # Post.where({ :datetime.gt => Date.today - Date.today.wday - 14 }).to_json
-  # Post.where('location.coordinates' => { '$ne' => nil }).to_json
   Post.only('author').all.to_json
 end
 
