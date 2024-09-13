@@ -30,7 +30,4 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - dsink_data:/data/db
-volumes:
-  dsink_data:
-  db_data:
+      - $HOME/.mongodb/data:/data/db
