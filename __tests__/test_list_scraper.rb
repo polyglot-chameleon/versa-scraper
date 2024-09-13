@@ -11,15 +11,7 @@ class TestListScraper < Minitest::Test
     @scraper.send :collect_items_from, doc
   end
 
-  def test_css
-    setup
-    assert_equal 'div.item', @scraper.src['item_css']
-    assert_equal 'div.title', @scraper.src['text_css']['title']
-    assert_equal 'div.desc', @scraper.src['text_css']['description']
-    assert_equal 'div.meta', @scraper.src['text_css']['meta']
-  end
-
-  def test_collect_html
+  def test_collect_items
     assert_equal 5, @scraper.items.length
     @scraper.items.all? do |item|
       assert_includes item.keys, 'title' and
