@@ -12,6 +12,8 @@ class ListScraper < Scraper
     @items = []
   end
 
+  attr_reader :items
+
   # Scrape the contents of a page
   #
   # overrides super

@@ -60,10 +60,11 @@ class Scraper
   # Extract regex from item
   def extract_regex
     (@src.key? 'regex') && @src['regex'].each_key do |src_var|
-      get_regex_at src_var.split('__')
+      src_var_left, idx = src_var.split('__')
+      get_regex_at src_var_left, idx
     end
 
-    (@item.key? 'datetime') && extract_datetime
+    (@item.key? 'datetime') && !@item['datetime'].nil? && extract_datetime
   end
 
   private
@@ -114,6 +115,7 @@ class Scraper
 
   # Parse previously extracted datetime
   def extract_datetime
+    p @item
     (@src.key? 'datetime_fmt') && (return DateTime.strptime @item['datetime'],
                                                             @src['datetime_fmt'])
 

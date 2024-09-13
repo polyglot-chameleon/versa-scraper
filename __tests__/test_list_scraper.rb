@@ -8,7 +8,7 @@ class TestListScraper < Minitest::Test
   def setup
     @scraper = ListScraper.new YAML.load_file '__tests__/resources/test.yml'
     doc = Nokogiri.HTML5 File.open('__tests__/resources/item-list.html')
-    @items = @scraper.send :collect_items_from, doc
+    @scraper.send :collect_items_from, doc
   end
 
   def test_css
@@ -20,8 +20,8 @@ class TestListScraper < Minitest::Test
   end
 
   def test_collect_html
-    assert_equal 5, @items.length
-    @items.all? do |item|
+    assert_equal 5, @scraper.items.length
+    @scraper.items.all? do |item|
       assert_includes item.keys, 'title' and
         assert_includes item.keys, 'description' and
         assert_includes item.keys, 'meta'
@@ -29,8 +29,8 @@ class TestListScraper < Minitest::Test
   end
 
   def test_extract_regex
-    @items.all? do |item|
-      @scraper.send :extract_regex, item
+    @scraper.items.all? do |item|
+      @scraper.send :extract_regex
       @scraper.src['regex'].each_key do |key|
         assert_includes item.keys, key
       end
