@@ -100,24 +100,20 @@ class Scraper
   end
 
   # Regex match on previously extracted html entity
-  def get_regex_at(src_var, idx) # rubocop:disable Metrics/AbcSize
+  def get_regex_at(src_var, idx)
     @src['regex'][src_var].each_key do |key|
-      matches = (if idx
-                   @item[src_var][idx.to_i] # if multivalue entity
-                 else
-                   @item[src_var]
-                 end).gsub(/\n|\s{2,}|\u00A0/,
-                           ' ').match(@src['regex'][src_var][key]).to_a
-
-      @item[key] = matches[matches.length % 2] # > 1 ? 1 : 0
+      @item[key] = (if idx
+                      @item[src_var][idx.to_i] # if multivalue entity
+                    else
+                      @item[src_var]
+                    end).gsub(/\n|\s{2,}|\u00A0/,
+                              ' ')[/#{@src['regex'][src_var][key]}/]
     end
   end
 
   # Parse previously extracted datetime
   def extract_datetime
-    p @item
-    (@src.key? 'datetime_fmt') && (return DateTime.strptime @item['datetime'],
-                                                            @src['datetime_fmt'])
+    (@src.key? 'datetime_fmt') && (return DateTime.strptime @item['datetime'], @src['datetime_fmt'])
 
     @item['datetime'] = DateTime.parse @item['datetime']
   end
