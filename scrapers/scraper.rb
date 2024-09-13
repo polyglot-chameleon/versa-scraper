@@ -17,7 +17,7 @@ class Scraper
     @log = Logger.new $stdout
   end
 
-  attr_reader :src
+  attr_reader :src, :item
   attr_writer :cookie
 
   # Scrape the contents of a page
@@ -55,8 +55,6 @@ class Scraper
     (@src.key? 'text_css') && extract_text_sections(dom_doc)
     (@src.key? 'multivalue') && extract_multivalue(dom_doc)
     (@src.key? 'by_attr') && extract_attr_vals(dom_doc)
-
-    @item.transform_keys(&:to_s)
   end
 
   # Extract regex from item
@@ -65,7 +63,7 @@ class Scraper
       get_regex_at src_var.split('__')
     end
 
-    extract_datetime
+    (@item.key? 'datetime') && extract_datetime
   end
 
   private

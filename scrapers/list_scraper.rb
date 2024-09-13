@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'ruby-progressbar'
 require_relative 'scraper'
 
 # Scraper for paginated item lists
@@ -24,8 +23,6 @@ class ListScraper < Scraper
   protected
 
   # Process and collect data from all dom list items
-  #
-  # `doc` *Nokogiri::HTML5::Document*
   def collect_items_from(doc)
     dom_items = doc.css @src['item_css']
 
@@ -41,11 +38,14 @@ class ListScraper < Scraper
   # Fetch data on individual page
   def pagewise(dom_items)
     (0..dom_items.length - 1).each do |idx|
-      page_src = { url: @url.host + @items[idx]['url'] }
+      page_src = { 'url' => @items[idx][:url].strip }
+      next if page_src['url'] == '#'
+
       page_src.merge!(**@src['pagewise'])
 
       page_scraper = Scraper.new page_src
-      @items[idx].merge! page_scraper.run
+      page_scraper.run
+      @items[idx].merge! page_scraper.item
     end
   end
 
