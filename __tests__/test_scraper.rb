@@ -21,7 +21,7 @@ class TestScraper < Minitest::Test
   end
 
   def test_collect
-    assert_equal 'Awesome title', @scraper.item['title']
+    assert_equal 'Awesome title 1', @scraper.item['title']
     assert_equal '', @scraper.item['description']
     assert_equal 'New York | type2 | 2020-01-01 00:00', @scraper.item['meta']
   end

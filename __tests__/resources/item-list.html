@@ -1,38 +1,61 @@
 <html>
-  <head>
-    <title>Test</title>
-  </head>
 
-  <body>
+<head>
+  <title>Test</title>
+</head>
+
+<body>
+  <div id="1">
     <div class="item">
-      <div class="title">Awesome title</div>
+      <div class="title">Awesome title 1</div>
       <div class="desc"></div>
       <div class="meta">New York | type2 | 2020-01-01 00:00</div>
       <a href="/" /><img src="/" />
     </div>
     <div class="item">
-      <div class="title">Awesome title</div>
-      <div class="desc" />
-      <div class="meta">New Delhi | type1 | 2020-01-01 00:00</div>
+      <div class="title">Awesome title 2</div>
+      <div class="desc"></div>
+      <div class="meta">New Delhi | type1 | 2020-01-02 00:00</div>
+      <a href="/" /><img src="/" />
+    </div>
+  </div>
+  <div id="2" hidden>
+    <div class="item">
+      <div class="title">Awesome title 3</div>
+      <div class="desc"></div>
+      <div class="meta">New York | type2 | 2020-01-03 00:00</div>
       <a href="/" /><img src="/" />
     </div>
     <div class="item">
-      <div class="title">Awesome title</div>
-      <div class="desc" />
-      <div class="meta">New York | type2 | 2020-01-01 00:00</div>
+      <div class="title">Awesome title 4</div>
+      <div class="desc"></div>
+      <div class="meta">New Delhi | type1 | 2020-01-04 00:00</div>
       <a href="/" /><img src="/" />
     </div>
+  </div>
+  <div id="3" hidden>
     <div class="item">
-      <div class="title">Awesome title</div>
-      <div class="desc" />
-      <div class="meta">New Delhi | type1 | 2020-01-01 00:00</div>
+      <div class="title">Awesome title 5</div>
+      <div class="desc"></div>
+      <div class="meta">New York | type2 | 2020-01-05 00:00</div>
       <a href="/" /><img src="/" />
     </div>
-    <div class="item">
-      <div class="title">Awesome title</div>
-      <div class="desc" />
-      <div class="meta">New York | type2 | 2020-01-01 00:00</div>
-      <a href="/" /><img src="/" />
-    </div>
-  </body>
+  </div>
+
+  <div>
+    <button onclick="goto(1)">1</button>
+    <button onclick="goto(2)">2</button>
+    <button onclick="goto(3)">3</button>
+  </div>
+
+</body>
+
+<script>
+  function goto(idx) {
+    [1, 2, 3].forEach((i) => { document.getElementById(i).hidden = true })
+
+    document.getElementById(idx).hidden = false
+  }
+</script>
+
 </html>
