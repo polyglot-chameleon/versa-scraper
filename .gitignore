@@ -1,3 +1,5 @@
 src_profiles/*.yml
 db_data/*
 coverage
+.env
+.mongodb
