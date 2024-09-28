@@ -7,7 +7,7 @@ require_relative '../scrapers/list_scraper'
 class TestListScraper < Minitest::Test
   def setup
     @scraper = ListScraper.new YAML.load_file '__tests__/resources/test.yml'
-    doc = Nokogiri.HTML5 File.open('__tests__/resources/item-list.html')
+    doc = Nokogiri.HTML5 File.open '__tests__/resources/item-list.html'
     @scraper.send :collect_items_from, doc
   end
 

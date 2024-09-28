@@ -1,4 +1,4 @@
-url: ""
+url: http://localhost:4444?p=1
 item_css: div.item
 link_css: a.article-link
 text_css:
@@ -15,3 +15,5 @@ regex:
     types: type1|type2
     datetime: \d{4}-\d{2}-\d{2} \d{2}:\d{2}
 datetime_fmt: "%Y-%m-%d %H:%M"
+pagination_query: p
+pagination_button_css: div > button

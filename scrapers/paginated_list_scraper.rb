@@ -5,13 +5,8 @@ require_relative 'list_scraper'
 # Scraper for paginated item lists
 class PaginatedListScraper < ListScraper
   # Scrape contents pagewise
-  def run # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    page = fetch_html 1
-    n_pages = self.class.send :get_n_pages, page, @src['pagination_button_css']
-
-    page_data = collect_items_from page
-    exit if @max_datetime >= page_data.map { |p| p['datetime'] }.filter { |p| !p.nil? }.max
-    create page_data
+  def run
+    prefetch
 
     progressbar = ProgressBar.create title: "#{@url.host} pagewise", total: n_pages
 
@@ -24,6 +19,17 @@ class PaginatedListScraper < ListScraper
 
   private
 
+  def prefetch
+    page = fetch_html 1
+    n_pages = PaginatedListScraper.get_n_pages page, @src['pagination_button_css']
+
+    page_data = collect_items_from page
+    exit if @max_datetime >= page_data.map { |p| p['datetime'] }.filter { |p| !p.nil? }.max
+    create page_data
+
+    n_pages
+  end
+
   # Get page html content by pagination id
   #
   # `page_idx` *Integer*
@@ -35,7 +41,6 @@ class PaginatedListScraper < ListScraper
     paginated_url.query = URI.encode_www_form(query.merge(@src['pagination_query'] => page_idx))
 
     response = HTTParty.get paginated_url, { headers: { 'Cookie' => @cookie.to_cookie_string } }
-    response.get_fields('set-cookie').each { |c| @cookie.add_cookies(c) } if @cookie.length == 1
 
     Nokogiri.HTML5 response.body
   end

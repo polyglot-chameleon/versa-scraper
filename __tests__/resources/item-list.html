@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -10,52 +11,57 @@
       <div class="title">Awesome title 1</div>
       <div class="desc"></div>
       <div class="meta">New York | type2 | 2020-01-01 00:00</div>
-      <a href="/" /><img src="/" />
+      <a href="/"></a><img src="/" />
     </div>
     <div class="item">
       <div class="title">Awesome title 2</div>
       <div class="desc"></div>
       <div class="meta">New Delhi | type1 | 2020-01-02 00:00</div>
-      <a href="/" /><img src="/" />
+      <a href="/"></a><img src="/" />
     </div>
   </div>
+
   <div id="2" hidden>
     <div class="item">
       <div class="title">Awesome title 3</div>
       <div class="desc"></div>
       <div class="meta">New York | type2 | 2020-01-03 00:00</div>
-      <a href="/" /><img src="/" />
+      <a href="/"></a><img src="/" />
     </div>
     <div class="item">
       <div class="title">Awesome title 4</div>
       <div class="desc"></div>
       <div class="meta">New Delhi | type1 | 2020-01-04 00:00</div>
-      <a href="/" /><img src="/" />
+      <a href="/"></a><img src="/" />
     </div>
   </div>
+
   <div id="3" hidden>
     <div class="item">
       <div class="title">Awesome title 5</div>
       <div class="desc"></div>
       <div class="meta">New York | type2 | 2020-01-05 00:00</div>
-      <a href="/" /><img src="/" />
+      <a href="/"></a><img src="/" />
     </div>
   </div>
 
   <div>
-    <button onclick="goto(1)">1</button>
-    <button onclick="goto(2)">2</button>
-    <button onclick="goto(3)">3</button>
+    <button onclick="location.href='/?p=1'">1</button>
+    <button onclick="location.href='/?p=2'">2</button>
+    <button onclick="location.href='/?p=3'">3</button>
   </div>
 
 </body>
 
-<script>
-  function goto(idx) {
-    [1, 2, 3].forEach((i) => { document.getElementById(i).hidden = true })
+<script type="text/javascript">
+  window.onload = () => {
+    const idx = new URLSearchParams(window.location.search).get("p") || 1;
 
-    document.getElementById(idx).hidden = false
-  }
+    [1, 2, 3].forEach((i) => document.getElementById(i).hidden = true);
+
+    document.getElementById(idx).hidden = false;
+  };
+
 </script>
 
 </html>

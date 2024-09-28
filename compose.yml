@@ -8,18 +8,18 @@ services:
     depends_on:
       api:
         condition: service_healthy
-  api:
+  api: &server
     image: sinatra-api:latest
     build: api
     container_name: sinatra-api
+    ports:
+      - 4567:4567
     healthcheck:
-      test: [ "CMD", "curl", "localhost:4567" ]
+      test: ["CMD", "curl", "localhost:4567"]
       interval: 1m30s
       timeout: 30s
       retries: 5
-      start_period: 30s
-    ports:
-      - 4567:4567
+      start_period: 10s
     environment:
       MONGODB_URI: mongodb://data-sink:27017/posts
     depends_on:
@@ -30,4 +30,12 @@ services:
     ports:
       - 27017:27017
     volumes:
-      - $HOME/.mongodb/data:/data/db
+      - .mongodb/data:/data/db
+  test-server:
+    <<: *server
+    container_name: test-server
+    ports:
+      - 4444:4444
+    volumes:
+      - ./__tests__:/test
+    command: bash -c "cd /test && ruby test_server.rb -e playtime -p 4444"
